@@ -1,4 +1,4 @@
-'use server';
+"use server";
 
 import { checkUser } from '@/lib/checkUser';
 import { db } from '@/lib/db';
@@ -8,7 +8,7 @@ export async function getAIInsights(): Promise<AIInsight[]> {
   try {
     const user = await checkUser();
     if (!user) {
-      throw new Error('User not authenticated');
+      throw new Error("User not authenticated");
     }
 
     // Get user's recent expenses (last 30 days)
@@ -23,7 +23,7 @@ export async function getAIInsights(): Promise<AIInsight[]> {
         },
       },
       orderBy: {
-        createdAt: 'desc',
+        createdAt: "desc",
       },
       take: 50, // Limit to recent 50 expenses for analysis
     });
@@ -32,21 +32,21 @@ export async function getAIInsights(): Promise<AIInsight[]> {
       // Return default insights for new users
       return [
         {
-          id: 'welcome-1',
-          type: 'info',
-          title: 'Welcome to ExpenseTracker AI!',
+          id: "welcome-1",
+          type: "info",
+          title: "Welcome to ExpenseTracker AI!",
           message:
-            'Start adding your expenses to get personalized AI insights about your spending patterns.',
-          action: 'Add your first expense',
+            "Start adding your expenses to get personalized AI insights about your spending patterns.",
+          action: "Add your first expense",
           confidence: 1.0,
         },
         {
-          id: 'welcome-2',
-          type: 'tip',
-          title: 'Track Regularly',
+          id: "welcome-2",
+          type: "tip",
+          title: "Track Regularly",
           message:
-            'For best results, try to log expenses daily. This helps our AI provide more accurate insights.',
-          action: 'Set daily reminders',
+            "For best results, try to log expenses daily. This helps our AI provide more accurate insights.",
+          action: "Set daily reminders",
           confidence: 1.0,
         },
       ];
@@ -56,7 +56,7 @@ export async function getAIInsights(): Promise<AIInsight[]> {
     const expenseData: ExpenseRecord[] = expenses.map((expense) => ({
       id: expense.id,
       amount: expense.amount,
-      category: expense.category || 'Other',
+      category: expense.category || "Other",
       description: expense.text,
       date: expense.createdAt.toISOString(),
     }));
@@ -65,17 +65,17 @@ export async function getAIInsights(): Promise<AIInsight[]> {
     const insights = await generateExpenseInsights(expenseData);
     return insights;
   } catch (error) {
-    console.error('Error getting AI insights:', error);
+    console.error("Error getting AI insights:", error);
 
     // Return fallback insights
     return [
       {
-        id: 'error-1',
-        type: 'warning',
-        title: 'Insights Temporarily Unavailable',
+        id: "error-1",
+        type: "warning",
+        title: "Insights Temporarily Unavailable",
         message:
           "We're having trouble analyzing your expenses right now. Please try again in a few minutes.",
-        action: 'Retry analysis',
+        action: "Retry analysis",
         confidence: 0.5,
       },
     ];

@@ -1,7 +1,8 @@
 'use server';
-import { db } from '@/lib/db';
+
 import { auth } from '@clerk/nextjs/server';
 import { revalidatePath } from 'next/cache';
+import { db } from '@/lib/db';
 
 async function deleteRecord(recordId: string): Promise<{
   message?: string;

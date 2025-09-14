@@ -1,4 +1,4 @@
-'use server';
+"use server";
 
 import { checkUser } from '@/lib/checkUser';
 import { db } from '@/lib/db';
@@ -8,7 +8,7 @@ export async function generateInsightAnswer(question: string): Promise<string> {
   try {
     const user = await checkUser();
     if (!user) {
-      throw new Error('User not authenticated');
+      throw new Error("User not authenticated");
     }
 
     // Get user's recent expenses (last 30 days)
@@ -23,7 +23,7 @@ export async function generateInsightAnswer(question: string): Promise<string> {
         },
       },
       orderBy: {
-        createdAt: 'desc',
+        createdAt: "desc",
       },
       take: 50, // Limit to recent 50 expenses for analysis
     });
@@ -32,7 +32,7 @@ export async function generateInsightAnswer(question: string): Promise<string> {
     const expenseData: ExpenseRecord[] = expenses.map((expense) => ({
       id: expense.id,
       amount: expense.amount,
-      category: expense.category || 'Other',
+      category: expense.category || "Other",
       description: expense.text,
       date: expense.createdAt.toISOString(),
     }));
@@ -41,7 +41,7 @@ export async function generateInsightAnswer(question: string): Promise<string> {
     const answer = await generateAIAnswer(question, expenseData);
     return answer;
   } catch (error) {
-    console.error('Error generating insight answer:', error);
+    console.error("Error generating insight answer:", error);
     return "I'm unable to provide a detailed answer at the moment. Please try refreshing the insights or check your connection.";
   }
 }
